@@ -30,9 +30,12 @@ for coluna in df_array:
 for coluna in df_array:
     ganhos_cs.append(coluna[20])
 
+#--------------------retirada de dados vazios-------------------------
 
 datas = datas[27:]
 ganhos_cs = ganhos_cs[27:]
+
+
 #confecção de uma lista geral com formato ano/valor
 lista_all = []
 index = 0
@@ -50,13 +53,13 @@ fig = go.Figure()
 
 
 #-----------------------------------------organização do eixo y do grafico----------------------------------------
-fig.update_yaxes(title = 'Prêmios', title_font_color = 'black',
+fig.update_yaxes(title = 'Prêmios', title_font_color = 'white',
                  title_font_family = "Overpass",
 title_font_size = 20, showgrid= True)
 
 
 #------------------------------------organização do eixo x do grafico--------------------------------------
-fig.update_xaxes(title = 'Ano', title_font_color = 'black',
+fig.update_xaxes(title = 'Ano', title_font_color = 'white',
                  title_font_family = "Overpass",
 title_font_size = 20, showgrid=False)
 
@@ -80,7 +83,7 @@ fig.add_trace(go.Scatter(x=datas, y=ganhos_cs, name =  '',
                          line = dict(color='lightskyblue', width=3,
 )))
 
-
+#---------------------------- criação das bolinhas--------------------------
 fig.add_trace(
     go.Scatter(
         mode='markers',
