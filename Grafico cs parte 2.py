@@ -5,6 +5,7 @@
 import pandas as pd
 import plotly.graph_objects as go
 from dash import Dash, html, dcc
+from tomlkit import value
 
 
 #implantação do dash
@@ -102,14 +103,36 @@ fig.add_trace(
 #--------------------------------------- implementação de funçoes do dash----------------------------
 
 app.layout = html.Div(children=[
-    html.H1(children='Gráfico Prêmios por mês em campeonatos de Counter Strike'),
-    html.Div(children='''
-        Gráfico relacionando meses com os Prêmios cumulativos de cada ano, de 2012 a 2022'''),
+        html.H6('Escolha o ano'),
+        html.H1(children='Gráfico Prêmios por mês em campeonatos de Counter Strike'),
+        html.Div(children='''
+        Gráfico relacionando meses com os prêmios cumulativos de cada ano, de 2012 a 2022'''),
         dcc.Graph(id='grafico cs principal', figure=fig)
+        #dcc.Dropdown(options= [2012,2013,2014,2015,2016,2017,2018,2019,2020,2021], value = [])
 
+
+    
+        html.Div(['Input: ',
+        dcc.Input(id='my-input', value ='initial value', type= 'text')
+    ]),
+    html.Br(),
+    html.Div(id='my-input')
 ])
 
+    
+    ''''
+
+
+@app.callback(
+    Output(component_id='my-output', component_property='children'),
+    Input (component_id='my-input', component_property= 'value')
+
+
+)
+
+def update_output_div(input_value):
+    return f'Output: {input_value}'
+
+'''
 if __name__ == '__main__' :
     app.run_server(debug=True)
-
-fig.show()
