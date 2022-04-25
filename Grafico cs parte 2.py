@@ -1,10 +1,11 @@
 #Grafico CS
 
 
-
+from sqlite3 import DatabaseError
+from matplotlib.pyplot import figure
 import pandas as pd
 import plotly.graph_objects as go
-from dash import Dash, html, dcc
+from dash import Dash, html, dcc,  Input, Output
 from tomlkit import value
 
 
@@ -78,6 +79,7 @@ fig.update_layout(title = 'Prêmios de campeonatos de CS:GO',
 fig.update_layout(showlegend= True)
 
 
+
 # criação da linha para o grafico de linhas
 
 fig.add_trace(go.Scatter(x=datas, y=ganhos_cs, name =  '',
@@ -100,39 +102,59 @@ fig.add_trace(
 
     )
 )
+
+
 #--------------------------------------- implementação de funçoes do dash----------------------------
 
 app.layout = html.Div(children=[
-        html.H6('Escolha o ano'),
-        html.H1(children='Gráfico Prêmios por mês em campeonatos de Counter Strike'),
-        html.Div(children='''
-        Gráfico relacionando meses com os prêmios cumulativos de cada ano, de 2012 a 2022'''),
-        dcc.Graph(id='grafico cs principal', figure=fig)
-        #dcc.Dropdown(options= [2012,2013,2014,2015,2016,2017,2018,2019,2020,2021], value = [])
-
-
     
-        html.Div(['Input: ',
-        dcc.Input(id='my-input', value ='initial value', type= 'text')
-    ]),
-    html.Br(),
-    html.Div(id='my-input')
+    html.H1(children='Gráfico Prêmios por mês em campeonatos de Counter Strike'),
+    html.Div(children='''
+    Gráfico relacionando meses com os prêmios cumulativos de cada ano, de 2012 a 2022'''),
+    dcc.Graph(id='grafico cs principal', figure=fig),
+    html.Div(['Escolha um ano para destacar',
+        dcc.Dropdown(options= [2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022],
+     value= '', multi=True,id='anos_disponiveis'),
+        html.Div(id= 'container_escolha'),
+        html.Br(),
+     ]),
+
 ])
 
     
-    ''''
-
-
 @app.callback(
-    Output(component_id='my-output', component_property='children'),
-    Input (component_id='my-input', component_property= 'value')
-
-
+    Output('grafico cs principal', figure),
+    Input('anos_disponiveis', 'value')
 )
+    
+def update_layout(value):
+    print(value)
+    datas_select = []
+    datas = []
+    df=pd.read_excel(r'Data base definitivo.xlsx')
+    df.dropna(inplace=True)                                     #retirada de dados nulos
+    df_array = df.values                                        #definição da array com os valores da db
 
-def update_output_div(input_value):
-    return f'Output: {input_value}'
+    for coluna in df_array:
+        datas.append(coluna[0])
 
-'''
+    datas = datas[27:]
+    data = [2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022]
+    for c in data:
+        if c == value:
+            datas_select.append(c)
+    if datas_select == []:
+        datas_select = datas
+    for a in datas:
+        for c in datas_select:
+            if c == a[:4]:
+                datas_select.append(a)
+    if datas_select[0] == value:
+        datas_select.remove[0]
+    datas = datas_select
+    return figure
+
+
+
 if __name__ == '__main__' :
     app.run_server(debug=True)
