@@ -4,6 +4,7 @@
 from sqlite3 import DatabaseError
 from turtle import bgcolor
 from matplotlib.pyplot import figure
+from numpy import size
 import pandas as pd
 import plotly.graph_objects as go
 from dash import Dash, html, dcc,  Input, Output
@@ -42,8 +43,11 @@ for coluna in df_array:
 
 datas = datas[27:]
 ganhos_cs = ganhos_cs[27:]
-anos_coluna = []
-
+anos_coluna = ['Todos']
+contador = 0
+for z in datas:
+    if z[:4] not in anos_coluna:
+        anos_coluna.append(z[:4])
 
 #--------------------------------------- implementação de funçoes do dash----------------------------
 
@@ -53,20 +57,7 @@ app.layout = html.Div([
     html.Div('''
     Gráfico relacionando meses com os prêmios cumulativos de cada ano, de 2012 a 2022'''),
     html.Div(['Escolha um ano para destacar no gráfico',
-        dcc.Dropdown(id='anos_disponiveis', options= [
-            {'label': 'Todos', 'value': 'data'},
-            {'label': '2012', 'value' : '2012'},
-            {'label': '2013', 'value' : '2013'},
-            {'label': '2014', 'value' : '2014'},
-            {'label': '2015', 'value' : '2015'},
-            {'label': '2016', 'value' : '2016'},
-            {'label': '2017', 'value' : '2017'},
-            {'label': '2018', 'value' : '2018'},
-            {'label': '2019', 'value' : '2019'},
-            {'label': '2020', 'value' : '2020'},
-            {'label': '2021', 'value' : '2021'},
-            {'label': '2022', 'value' : '2022'},
-        ], value= 'data',
+        dcc.Dropdown(id='anos_disponiveis', options= anos_coluna, value= 'Todos',
         searchable= True),
         html.Div(id= 'container_escolha'),
         html.Br(),
@@ -87,14 +78,13 @@ def update_graph(anos_disponiveis):
     'julho','agosto','setembro','outubro','novembro', 'dezembro']
     x_function = []
     i = 0
-    if anos_disponiveis != 'data':
+    if anos_disponiveis != 'Todos':
         while i <12:
                 x_function.append(anos_disponiveis)
                 i += 1
         for a in range(len(x_function)):
-            x_function[a] = str(x_function[a]) + ' ' + meses[a]
-            print (x_function) 
-    if anos_disponiveis == 'data':
+            x_function[a] = str(x_function[a]) + ' ' + meses[a] 
+    if anos_disponiveis == 'Todos':
         x_function = datas
     ganhos_especificados = []
     for z in range(len(datas)):
