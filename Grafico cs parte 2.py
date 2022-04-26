@@ -43,9 +43,9 @@ for coluna in df_array:
 
 datas = datas[27:]
 ganhos_cs = ganhos_cs[27:]
-anos_coluna = ['Todos']
-contador = 0
-for z in datas:
+anos_coluna = ['Todos']                 #criação de uma lista para receber os anos pro callback, o Todos é 
+contador = 0                                #por conta da função ter essa parte para mostrar todo o gráfico
+for z in datas:                             #importação dos valores dos anos para a lista anos_coluna
     if z[:4] not in anos_coluna:
         anos_coluna.append(z[:4])
 
@@ -53,14 +53,13 @@ for z in datas:
 
 app.layout = html.Div([
     
-    html.H1('Gráfico Prêmios por mês em campeonatos de Counter Strike'),
+    html.H1('Gráfico Prêmios por mês em campeonatos de Counter Strike'),                #titulo
     html.Div('''
-    Gráfico relacionando meses com os prêmios cumulativos de cada ano, de 2012 a 2022'''),
-    html.Div(['Escolha um ano para destacar no gráfico',
+    Gráfico relacionando meses com os prêmios cumulativos de cada ano, de 2012 a 2022'''),  #subtitulo
+    html.Div(['Escolha um ano para destacar no gráfico:',                                    #dropdown
         dcc.Dropdown(id='anos_disponiveis', options= anos_coluna, value= 'Todos',
-        searchable= True),
-        html.Div(id= 'container_escolha'),
-        html.Br(),
+        searchable= True),                                          # opções recebe os anos, value mostra o valor inicial
+                                                                    # inicial, serchable deixa o usuario pesquisar
      ]),
      dcc.Graph(id='grafico cs principal', figure= fig),
 
@@ -119,7 +118,7 @@ title_font_size = 20, showgrid= True)
 #------------------------------------organização do eixo x do grafico--------------------------------------
 fig.update_xaxes(title = 'Ano', title_font_color = 'white',
                  title_font_family = "Overpass",
-title_font_size = 20, showgrid=False)
+title_font_size = 15, showgrid=False)
 
 
 #------------------------------------organização do titulo do grafico-----------------------------------------
