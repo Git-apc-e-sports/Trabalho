@@ -19,7 +19,7 @@ fig = go.Figure()
 
 
 #leitura dos dados da data base
-df=pd.read_excel(r'Data base definitivo.xlsx')
+df=pd.read_excel(r'Definitivo.xlsx')
 df.dropna(inplace=True)                                     #retirada de dados nulos
 df_array = df.values                                        #definição da array com os valores da db
 
@@ -42,6 +42,7 @@ for coluna in df_array:
 
 datas = datas[27:]
 ganhos_cs = ganhos_cs[27:]
+anos_coluna = []
 
 
 #--------------------------------------- implementação de funçoes do dash----------------------------
@@ -65,7 +66,7 @@ app.layout = html.Div([
             {'label': '2020', 'value' : '2020'},
             {'label': '2021', 'value' : '2021'},
             {'label': '2022', 'value' : '2022'},
-        ], value= 'Todos',
+        ], value= 'data',
         searchable= True),
         html.Div(id= 'container_escolha'),
         html.Br(),
@@ -81,52 +82,28 @@ app.layout = html.Div([
 )
  
 def update_graph(anos_disponiveis):
-    '''
     dff = df
     meses = ['janeiro', 'fevereiro','março','abril','maio','junho',
     'julho','agosto','setembro','outubro','novembro', 'dezembro']
     x_function = []
     i = 0
-    if anos_disponiveis != 'Todos':
+    if anos_disponiveis != 'data':
         while i <12:
                 x_function.append(anos_disponiveis)
                 i += 1
         for a in range(len(x_function)):
             x_function[a] = str(x_function[a]) + ' ' + meses[a]
             print (x_function) 
-    if anos_disponiveis == "Todos":
+    if anos_disponiveis == 'data':
         x_function = datas
     ganhos_especificados = []
-    for a in datas:
-        for c in a:
-            if x_function[:4] in list(c):
-                ganhos_especificados.append(ganhos_cs[index(a)])
-    grafico = px.line(data_frame= dff,
-     x=x_function, y= ganhos_especificados, markers= True)
-     '''
-    return 
+    for z in range(len(datas)):
+        if datas[z] in x_function:
+            ganhos_especificados.append(ganhos_cs[z])
+    grafico = fig.update_traces(x= x_function, y = ganhos_especificados)
+    return (grafico)
 
 
-
-
-
-
-
-
-    datas_select = []
-    #anos = [2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022]
-    meses = ['janeiro', 'fevereiro','março','abril','maio','junho',
-    'julho','agosto','setembro','outubro','novembro', 'dezembro']
-    if value != 0:
-        i = 0
-        while i <12:
-            datas_select.append(value)
-            i += 1
-        for a in range(len(datas_select)):
-            datas_select[a] = str(datas_select[a]) + ' ' + meses[a]
-            print (datas_select)      
-    datas_select = datas
-    return fig
 
 
 
