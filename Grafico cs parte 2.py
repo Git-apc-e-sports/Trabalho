@@ -29,8 +29,6 @@ df_array = df.values                                        #definição da arra
 ganhos_cs = []
 datas = []
 index = 0
-df_array
-
 
 #leitura dos arrays transformando em listas de cada coluna
 for coluna in df_array:
@@ -40,7 +38,11 @@ for coluna in df_array:
     ganhos_cs.append(coluna[20])
 
 #--------------------retirada de dados vazios-------------------------
-
+meses_coluna = []
+for z in datas:                             #importação dos valores dos anos para a lista anos_coluna
+    if z[5:] not in meses_coluna:
+        meses_coluna.append(z[5:])
+print(meses_coluna)
 datas = datas[27:]
 ganhos_cs = ganhos_cs[27:]
 anos_coluna = ['Todos']                 #criação de uma lista para receber os anos pro callback, o Todos é 
@@ -57,7 +59,7 @@ app.layout = html.Div([
     html.Div('''
     Gráfico relacionando meses com os prêmios cumulativos de cada ano, de 2012 a 2022'''),  #subtitulo
     html.Div(['Escolha um ano para destacar no gráfico:',                                    #dropdown
-        dcc.Dropdown(id='anos_disponiveis', options= anos_coluna, value= 'Todos',
+        dcc.Dropdown(id='anos_disponiveis', options= anos_coluna, value= '2012',
         searchable= True),                                          # opções recebe os anos, value mostra o valor inicial
                                                                     # inicial, serchable deixa o usuario pesquisar
      ]),
@@ -72,9 +74,6 @@ app.layout = html.Div([
 )
  
 def update_graph(anos_disponiveis):
-    dff = df
-    meses = ['janeiro', 'fevereiro','março','abril','maio','junho',
-    'julho','agosto','setembro','outubro','novembro', 'dezembro']
     x_function = []
     i = 0
     if anos_disponiveis != 'Todos':
@@ -82,13 +81,22 @@ def update_graph(anos_disponiveis):
                 x_function.append(anos_disponiveis)
                 i += 1
         for a in range(len(x_function)):
-            x_function[a] = str(x_function[a]) + ' ' + meses[a] 
+            x_function[a] = str(x_function[a]) + ' ' + meses_coluna[a] 
+        print (x_function)
+        
     if anos_disponiveis == 'Todos':
         x_function = datas
     ganhos_especificados = []
     for z in range(len(datas)):
         if datas[z] in x_function:
             ganhos_especificados.append(ganhos_cs[z])
+    if anos_disponiveis == '2012':
+        i=0
+    while i <3:
+        ganhos_especificados.insert(0, 0)
+        print (ganhos_especificados)
+        i +=1
+    print (ganhos_especificados)
     grafico = fig.update_traces(x= x_function, y = ganhos_especificados)
     return (grafico)
 
