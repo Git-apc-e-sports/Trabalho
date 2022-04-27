@@ -38,11 +38,12 @@ for coluna in df_array:
     ganhos_cs.append(coluna[20])
 
 #--------------------retirada de dados vazios-------------------------
+
 meses_coluna = []
 for z in datas:                             #importação dos valores dos anos para a lista anos_coluna
     if z[5:] not in meses_coluna:
         meses_coluna.append(z[5:])
-print(meses_coluna)
+
 datas = datas[27:]
 ganhos_cs = ganhos_cs[27:]
 anos_coluna = ['Todos']                 #criação de uma lista para receber os anos pro callback, o Todos é 
@@ -59,7 +60,7 @@ app.layout = html.Div([
     html.Div('''
     Gráfico relacionando meses com os prêmios cumulativos de cada ano, de 2012 a 2022'''),  #subtitulo
     html.Div(['Escolha um ano para destacar no gráfico:',                                    #dropdown
-        dcc.Dropdown(id='anos_disponiveis', options= anos_coluna, value= '2012',
+        dcc.Dropdown(id='anos_disponiveis', options= anos_coluna, value= 'Todos',
         searchable= True),                                          # opções recebe os anos, value mostra o valor inicial
                                                                     # inicial, serchable deixa o usuario pesquisar
      ]),
@@ -82,7 +83,6 @@ def update_graph(anos_disponiveis):
                 i += 1
         for a in range(len(x_function)):
             x_function[a] = str(x_function[a]) + ' ' + meses_coluna[a] 
-        print (x_function)
         
     if anos_disponiveis == 'Todos':
         x_function = datas
@@ -94,9 +94,8 @@ def update_graph(anos_disponiveis):
         i=0
     while i <3:
         ganhos_especificados.insert(0, 0)
-        print (ganhos_especificados)
+        
         i +=1
-    print (ganhos_especificados)
     grafico = fig.update_traces(x= x_function, y = ganhos_especificados)
     return (grafico)
 
@@ -126,7 +125,7 @@ title_font_size = 20, showgrid= True)
 #------------------------------------organização do eixo x do grafico--------------------------------------
 fig.update_xaxes(title = 'Ano', title_font_color = 'white',
                  title_font_family = "Overpass",
-title_font_size = 15, showgrid=False)
+title_font_size = 20, showgrid=False)
 
 
 #------------------------------------organização do titulo do grafico-----------------------------------------
