@@ -1,22 +1,16 @@
 #Grafico CS
 
 
-from sqlite3 import DatabaseError
-from turtle import bgcolor
-from matplotlib.pyplot import figure
-from numpy import size
 import pandas as pd
 import plotly.graph_objects as go
 from dash import Dash, html, dcc,  Input, Output
-from tomlkit import value
-import plotly_express as px
 
 #implantação do dash
 app = Dash(__name__)
 
 
 #criacao de grafico
-fig = go.Figure()
+fig1 = go.Figure()
 
 
 #leitura dos dados da data base
@@ -64,7 +58,7 @@ app.layout = html.Div([
         searchable= True),                                          # opções recebe os anos, value mostra o valor inicial
                                                                     # inicial, serchable deixa o usuario pesquisar
      ]),
-     dcc.Graph(id='grafico cs principal', figure= fig),
+     dcc.Graph(id='grafico cs principal', figure= fig1),
 
 ])
 
@@ -96,7 +90,7 @@ def update_graph(anos_disponiveis):
         ganhos_especificados.insert(0, 0)
         
         i +=1
-    grafico = fig.update_traces(x= x_function, y = ganhos_especificados)
+    grafico = fig1.update_traces(x= x_function, y = ganhos_especificados)
     return (grafico)
 
 
@@ -117,19 +111,19 @@ for a in datas:
 
 
 #-----------------------------------------organização do eixo y do grafico----------------------------------------
-fig.update_yaxes(title = 'Prêmios', title_font_color = 'white',
+fig1.update_yaxes(title = 'Prêmios', title_font_color = 'white',
                  title_font_family = "Overpass",
 title_font_size = 20, showgrid= True)
 
 
 #------------------------------------organização do eixo x do grafico--------------------------------------
-fig.update_xaxes(title = 'Ano', title_font_color = 'white',
+fig1.update_xaxes(title = 'Ano', title_font_color = 'white',
                  title_font_family = "Overpass",
 title_font_size = 20, showgrid=False)
 
 
 #------------------------------------organização do titulo do grafico-----------------------------------------
-fig.update_layout(title = 'Prêmios de campeonatos de CS:GO',
+fig1.update_layout(title = 'Prêmios de campeonatos de CS:GO',
                   plot_bgcolor= 'black' ,
  paper_bgcolor='black', 
  title_yanchor= 'top', title_xref= 'paper', title_yref= 'paper',
@@ -138,16 +132,16 @@ fig.update_layout(title = 'Prêmios de campeonatos de CS:GO',
 
 
 # ativação da legenda para a ativação e desativação do grafico
-fig.update_layout(showlegend= True)
+fig1.update_layout(showlegend= True)
 
 
 # criação da linha para o grafico de linhas
-fig.add_trace(go.Scatter(x=datas, y=ganhos_cs, name =  '',
+fig1.add_trace(go.Scatter(x=datas, y=ganhos_cs, name =  '',
                          line = dict(color='lightskyblue', width=3,
 )))
 
 #---------------------------- criação das bolinhas--------------------------
-fig.add_trace(
+fig1.add_trace(
     go.Scatter(
         mode='markers',
         x=datas,
