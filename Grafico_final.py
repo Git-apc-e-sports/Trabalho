@@ -175,7 +175,7 @@ fig2 = go.Figure()
 
 
 def dadosorg():
-    db = pd.read_excel('Jogos (1).xlsx')
+    db = pd.read_excel('Jogos_1.xlsx')
     Base = db.values
     for coluna in Base:
         anos_dx.append(coluna[0])
