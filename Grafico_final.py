@@ -124,8 +124,8 @@ for z in datas:  # importação dos valores dos anos para a lista anos_coluna
     if z[5:] not in meses_coluna:
         meses_coluna.append(z[5:])
 
-datas = datas[27:]
-ganhos_cs = ganhos_cs[27:]
+datas = datas[24:]
+ganhos_cs = ganhos_cs[24:]
 # criação de uma lista para receber os anos pro callback, o Todos é
 anos_coluna = ['Todos']
 contador = 0  # por conta da função ter essa parte para mostrar todo o gráfico
@@ -175,7 +175,7 @@ fig2 = go.Figure()
 
 
 def dadosorg():
-    db = pd.read_excel('Jogos_1.xlsx')
+    db = pd.read_excel('Jogos (1).xlsx')
     Base = db.values
     for coluna in Base:
         anos_dx.append(coluna[0])
@@ -409,12 +409,6 @@ def update_graph(anos_disponiveis):
     for z in range(len(datas)):
         if datas[z] in x_function:
             ganhos_especificados.append(ganhos_cs[z])
-    if anos_disponiveis == '2012':
-        i = 0
-    while i < 3:
-        ganhos_especificados.insert(0, 0)
-
-        i += 1
     grafico = fig1.update_traces(x=x_function, y=ganhos_especificados)
     return (grafico)
 
