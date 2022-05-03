@@ -9,11 +9,11 @@ df_array = df.values
 ######################################################### PRIMEIRO ###################################################
 
 
-Tudo = []
+Tudo = []           #criação da primeira array que vai ser uma "listona" ou lista de listas
 
 for i in df_array:
     (Ano) = i[0].split()[0]
-    Ano = int(Ano)
+    Ano = int(Ano)                                          #append nas variaveis q vão fazer parte do código em questão
     (Street_V) = (i[5])
     (lol) = (i[9])
     (Street_p) = (i[1])
@@ -22,24 +22,22 @@ for i in df_array:
 
 
 def Filtro(Data):
-    Final = [x for x in Tudo if x[0] == Data]
+    Final = [x for x in Tudo if x[0] == Data]              # criação da filtragem chamada Final.
     return Final
 
 
-anoop = []
+anoop = []  # criação de uma array para ser as opções do callback
 for x in Tudo:
     anoop.append(x[0])
-anoop = sorted(set(anoop))
-pitagoras = str(anoop)
+anoop = sorted(set(anoop))   #removendo valores repetidos e organizando tudo.
+pitagoras = str(anoop)      # criação de pitagoras, que será str de anoop, assim ele sera aceito como opções no callback :)
 
-# filtrado = filter(lambda t: t[0] == 2021,Tudo)
+# filtrado = filter(lambda t: t[0] == 2021,Tudo) #filtragem antiga que não foi usada.
 
-jogos = []
+jogos = [] # criação de variáveis que vão armazenar e ordenar dados no callback
 views = []
 players = []
 Streetmax = Lolmax = Streetpmax = Lolpmax = 0
-
-
 
 
 
@@ -100,9 +98,9 @@ def visualfig(fig):  # Função que altera o visual do gráfico
 # criacao de grafico
 fig1 = go.Figure()
 
-# leitura dos dados da data base
+
 df.dropna(inplace=True)  # retirada de dados nulos
-# definição da array com os valores da db
+
 
 # criação de listas vazias para receber os valores de cada coluna
 ganhos_cs = []
@@ -111,25 +109,25 @@ datas = []
 
 # leitura dos arrays transformando em listas de cada coluna
 for coluna in df_array:
-    datas.append(coluna[0])
+    datas.append(coluna[0])                 #criaçao da lista das datas com relação a coluna 0 do db
 
 for coluna in df_array:
-    ganhos_cs.append(coluna[20])
+    ganhos_cs.append(coluna[20])            #criaçao da lista dos ganhos com relação a coluna 20 do db
 
 
 # --------------------retirada de dados vazios-------------------------
 
 meses_coluna = []
-for z in datas:  # importação dos valores dos anos para a lista anos_coluna
+for z in datas:                                   #criaçao e filtragem de uma lista com todos os meses na db
     if z[5:] not in meses_coluna:
         meses_coluna.append(z[5:])
 
-datas = datas[24:]
-ganhos_cs = ganhos_cs[24:]
-# criação de uma lista para receber os anos pro callback, o Todos é
-anos_coluna = ['Todos']
-contador = 0  # por conta da função ter essa parte para mostrar todo o gráfico
-for z in datas:  # importação dos valores dos anos para a lista anos_coluna
+datas = datas[24:]                               #retirada dos valores anteriores à 2012
+ganhos_cs = ganhos_cs[24:]                       #retirada dos valores anteriores à 2012
+
+anos_coluna = ['Todos']             #criação de uma lista para receber os anos para o callback...
+contador = 0                        # ...com o valor todos por conta da opcao do callback
+for z in datas:                         #filtragem para anos_coluna receber todos os anos da planilha
     if z[:4] not in anos_coluna:
         anos_coluna.append(z[:4])
 
@@ -236,10 +234,11 @@ opcoes.append("Todos anos")
 app = Dash(__name__)
 
 app.layout = html.Div(children=[
-
+    #html do grafico 1
     html.Div(children=[
         html.Div(className="grafico11", children=[
-            html.H1(children='Comparações de números'),
+            html.H1(children='Gráficos de Jogos e E-Sports'),
+            html.Div(html.H2(children='Comparações de números')),
             html.Div(id='body-div'),
             dcc.Graph(id='g'),
             dcc.Dropdown(options=anoop, value="2021",
@@ -248,6 +247,7 @@ app.layout = html.Div(children=[
                                   'Views x Views'], value='Views x Views', id='tag'),
         ]),
 
+        #html do grafico 2
     html.Div(className="grafico22",children=[
             html.Div(style={'backgroundColor': '#111111'}, children=[
                 html.H2(
@@ -267,21 +267,22 @@ app.layout = html.Div(children=[
             ]),
         ]),
     ]),
-
+            #html do grafico 3
     html.Div(children=[
         html.Div(children=[html.Div([
-        html.H3('Gráfico Prêmios por mês em campeonatos de Counter Strike'),  # titulo
+        html.Div(html.H2('Gráfico Prêmios por mês em campeonatos de Counter Strike')),  # titulo
         html.Div('''
         Gráfico relacionando meses com os prêmios cumulativos de cada ano, de 2012 a 2022'''),  # subtitulo
         html.Div(['Escolha um ano para destacar no gráfico:',  # dropdown
             dcc.Dropdown(id='anos_disponiveis', options=anos_coluna, value='Todos',
             searchable=True),  # opções recebe os anos, value mostra o valor inicial
-                  # inicial, serchable deixa o usuario pesquisar
+                                # inicial, serchable deixa o usuario pesquisar
                 ]),
-        dcc.Graph(id='grafico cs principal', figure=fig1),
+        dcc.Graph(id='grafico cs principal', figure=fig1), #plot do grafico
 
+    #html do grafico 4
     html.Div(children=[ html.Div(children=[
-        html.H4(children='Grafico Audiencia league'),
+        html.Div(html.H2(children='Grafico Audiencia league')),
 
         html.Div(children='Espectadores League of Legends'
                  ),
@@ -293,12 +294,12 @@ app.layout = html.Div(children=[
         )
     ]),
     ])
-
+    #html do grafico 5
     ]),
     ]),
     ]),
     html.Div(children=[
-        html.H5(children='Faturamento da industria de jogos'),
+        html.Div(html.H2(children='Faturamento da industria de jogos')),
         html.H6(id="header2"),
 
         html.Div(children='''
@@ -386,31 +387,31 @@ def update_output(value):  # Função que atualiza o gráfico
     return fig
 
 
-################################################################################################## TERCEIRO CALLBACK ####################################################
+##################################################################################### TERCEIRO CALLBACK ####################################################
 
 
 @app.callback(
-    Output(component_id='grafico cs principal', component_property='figure'),
-    [Input(component_id='anos_disponiveis', component_property='value')]
+    Output(component_id='grafico cs principal', component_property='figure'),     #sai atualizaçao da figure
+    [Input(component_id='anos_disponiveis', component_property='value')]          #entra valor de anos escolhidos
 )
-def update_graph(anos_disponiveis):
+def update_graph(anos_disponiveis):                 #funçao para atualizar o grafico
     x_function = []
     i = 0
-    if anos_disponiveis != 'Todos':
-        while i < 12:
+    if anos_disponiveis != 'Todos':                     #se nao for todos é um ano especifico
+        while i < 12:                                   #laço para colocar 12 valores do ano especificado
             x_function.append(anos_disponiveis)
             i += 1
-        for a in range(len(x_function)):
-            x_function[a] = str(x_function[a]) + ' ' + meses_coluna[a]
+        for a in range(len(x_function)):                  #laço para colocar cada mes em um valor do ano especificado
+            x_function[a] = str(x_function[a]) + ' ' + meses_coluna[a]  #sai uma str '*ano* *mes*'
 
-    if anos_disponiveis == 'Todos':
+    if anos_disponiveis == 'Todos':                     #se o usuário deseja todos os valores, x = datas
         x_function = datas
     ganhos_especificados = []
-    for z in range(len(datas)):
-        if datas[z] in x_function:
-            ganhos_especificados.append(ganhos_cs[z])
-    grafico = fig1.update_traces(x=x_function, y=ganhos_especificados)
-    return (grafico)
+    for z in range(len(datas)):                         #laço para definir o valor de y em relaçao a posiçao em x..
+        if datas[z] in x_function:                       #..valido por conta das listas terem o mesmo tamanho
+            ganhos_especificados.append(ganhos_cs[z])      #ou seja, se o valor de datas[z] estiver dentro do intervalo..
+    grafico = fig1.update_traces(x=x_function, y=ganhos_especificados)      #..de x_function, pegue essa posiçao em ganhos_cs
+    return (grafico)                                                        #na linha de cima, atualize o x e y
 
 
 
@@ -421,16 +422,14 @@ fig1.update_yaxes(title='Prêmios', title_font_color='white',
                   title_font_size=20, showgrid=True)
 
 # ------------------------------------organização do eixo x do grafico--------------------------------------
-fig1.update_xaxes(title='Ano', title_font_color='white',
+fig1.update_xaxes(title='Datas', title_font_color='white',
                   title_font_family="Overpass",
                   title_font_size=20, showgrid=False)
 
 # ------------------------------------organização do titulo do grafico-----------------------------------------
-fig1.update_layout(title='Prêmios de campeonatos de CS:GO',
+fig1.update_layout(
                    plot_bgcolor='black',
                    paper_bgcolor='black',
-                   title_yanchor='top', title_xref='paper', title_yref='paper',
-                   title_font_family="Gravitas One", title_font_size=30,
                    font=dict(color='white'))
 
 # ativação da legenda para a ativação e desativação do grafico
@@ -453,7 +452,7 @@ fig1.add_trace(
 
         ),
 
-        showlegend=False
+        showlegend=False                        #retirada da legenda para as bolinhas
 
     )
 )
