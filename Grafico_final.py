@@ -234,10 +234,10 @@ opcoes.append("Todos anos")
 app = Dash(__name__)
 
 app.layout = html.Div(children=[
+
     #html do grafico 1
     html.Div(children=[
         html.Div(className="grafico11", children=[
-            html.H1(children='Gráficos de Jogos e E-Sports'),
             html.Div(html.H2(children='Comparações de números')),
             html.Div(id='body-div'),
             dcc.Graph(id='g'),
@@ -270,7 +270,7 @@ app.layout = html.Div(children=[
             #html do grafico 3
     html.Div(children=[
         html.Div(children=[html.Div([
-        html.Div(html.H2('Gráfico Prêmios por mês em campeonatos de Counter Strike')),  # titulo
+        html.Div(html.H2('Gráfico de Prêmios por mês em campeonatos de Counter Strike')),  # titulo
         html.Div('''
         Gráfico relacionando meses com os prêmios cumulativos de cada ano, de 2012 a 2022'''),  # subtitulo
         html.Div(['Escolha um ano para destacar no gráfico:',  # dropdown
@@ -282,7 +282,7 @@ app.layout = html.Div(children=[
 
     #html do grafico 4
     html.Div(children=[ html.Div(children=[
-        html.Div(html.H2(children='Grafico Audiencia league')),
+        html.Div(html.H2(children='Grafico de Audiência de League of Legends')),
 
         html.Div(children='Espectadores League of Legends'
                  ),
