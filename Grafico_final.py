@@ -237,7 +237,7 @@ app.layout = html.Div(children=[
 
     #html do grafico 1
     html.Div(children=[
-        html.Div(className="grafico11", children=[
+            html.Div(className="grafico11", children=[
             html.Div(html.H2(children='Comparações de números')),
             html.Div(id='body-div'),
             dcc.Graph(id='g'),
@@ -299,7 +299,7 @@ app.layout = html.Div(children=[
     ]),
     ]),
     html.Div(children=[
-        html.Div(html.H2(children='Faturamento da industria de jogos')),
+        html.Div(html.H2(children='Escala de faturação da industria de jogos')),
         html.H6(id="header2"),
 
         html.Div(children='''
@@ -458,7 +458,7 @@ fig1.add_trace(
 )
 
 
-############################################################################################################## QUARTO CALLBACK #######################################################
+########################################################################################################### QUARTO CALLBACK #######################################################
 
 
 @app.callback(
